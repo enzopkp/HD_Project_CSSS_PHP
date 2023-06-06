@@ -1,8 +1,13 @@
 <?php
 session_start();
 
-require '../db.php';
-$pdo = (new DatabaseConnection())->getPdo();
+require_once __DIR__ . '/../../Infrastructure/Data/DatabaseManager.php';
+require_once __DIR__ . '/../../Infrastructure/Repositories/PatientRepository.php';
+require_once __DIR__ . '/../../Infrastructure/Repositories/AppointmentRepository.php';
+
+$databaseManager = new DatabaseManager();
+$patientRepository = new PatientRepository($databaseManager);
+$appointmentRepository = new AppointmentRepository($databaseManager);
 
 if (!isset($_SESSION['user'])) {
     header("Location: ../login.php");
@@ -11,16 +16,13 @@ if (!isset($_SESSION['user'])) {
 $user = $_SESSION['user'];
 $user_id = $user['id'];
 
-$stmt = $pdo->prepare('SELECT * FROM patients WHERE id = ?');
-$stmt->execute([$user_id]);
-$userPulledFromDb = $stmt->fetch();
+$userPulledFromDb = $patientRepository->getPatientById($user_id);
 
 // Get upcoming appointments for the next week
 $oneWeekLater = date('Y-m-d', strtotime('+1 week'));
-$stmt = $pdo->prepare('SELECT * FROM appointments WHERE patient = ? AND date <= ? ORDER BY date, time');
-$stmt->execute([$user_id, $oneWeekLater]);
-$appointments = $stmt->fetchAll();
+$appointments = $appointmentRepository->getUpcomingAppointments($user_id, $oneWeekLater);
 ?>
+
 
 
 
@@ -102,18 +104,7 @@ $appointments = $stmt->fetchAll();
   <script src="../scripts/hamburger.js"></script>
 </head>
 <body>
-  <div class="hamburger">
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-  </div>
-
-  <div class="menu">
-    <a href="index.php">Home</a>
-    <a href="calendar.php">Calendar</a>
-    <a href="settings.php">Settings</a>
-    <a href="logout.php">Log Out</a>
-  </div>
+<?php include 'menu.php'; ?>
   <div class="container">
     <div class="profile-card">
       <h2>Patient Profile</h2>
@@ -127,11 +118,11 @@ $appointments = $stmt->fetchAll();
     <h2>Upcoming Appointments</h2>
 
     <?php foreach ($appointments as $appointment): ?>
-        <div class="appointment">
-            <h3><?php echo date('l, F j', strtotime($appointment['date'])); ?></h3>
-            <p><?php echo $appointment['description']; ?></p>
-        </div>
-    <?php endforeach; ?>
+    <div class="appointment">
+        <h3><?php echo date('l, F j', strtotime($appointment->getDate())); ?></h3>
+        <p><?php echo $appointment->getDescription(); ?></p>
+    </div>
+<?php endforeach; ?>
 
     <a href="calendar.php" class="calendar-link">View Full Calendar</a>
 </div>

@@ -1,23 +1,82 @@
 body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(45deg, #f3ec78, #af4261);
-    color: #333;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(45deg, #f3ec78, #af4261);
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: auto;
+  max-width: 70%;
+  background: #FFFFFF;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-gap: 20px;
+}
+
+
+h1 {
+  font-size:2.5rem; 
+  color: #333;
+  text-align: center;
+}
+
+.welcome-message {
+  font-size: 18px;
+  color: #666;
+  text-align: center;
+}
+
+.action-links, .update-user, .next-week, .prev-week {
+  display: flex;
+  justify-content: space-between;
+}
+
+.action-links a, .update-user, .next-week, .prev-week {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+  border-radius: 3px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+ flex: 1 ; /*  This tells the items to take as much space as possible and not to shrink below 200px */
+  margin: 5px;
+}
+
+.action-links a:hover, .update-user:hover, .next-week:hover, .prev-week:hover {
+  background-color: #45a049;
+}
+
+.logout-link {
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  text-decoration: none;
+}
+
+.logout-link:hover {
+  color: #333;
+}
+
+@media (max-width: 800px) {
+  .container {
+      width: fit-content;
   }
 
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0px 10px 20px -10px rgba(0, 0, 0, 0.75);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+  .action-links {
+      flex-direction: column;
   }
+  
+  .action-links a {
+      flex: none;
+  }
+}

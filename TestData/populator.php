@@ -5,31 +5,31 @@ require '../DTO/Practitioner.php';
 
 
 // Create an array to hold the patient records
-// $patients = [
-//   new Patient(1, 'John Smith', 'johnsmith@example.com', hash('sha256', 'password1'), '1234567890', 'Male, 35 years old'),
-//   new Patient(2, 'Emily Johnson', 'emilyjohnson@example.com', hash('sha256', 'password2'), '0987654321', 'Female, 28 years old'),
-//   new Patient(3, 'Michael Brown', 'michaelbrown@example.com', hash('sha256', 'password3'), '9876543210', 'Male, 45 years old'),
-//   new Patient(4, 'Sophia Davis', 'sophiadavis@example.com', hash('sha256', 'password4'), '0123456789', 'Female, 31 years old'),
-//   new Patient(5, 'William Wilson', 'williamwilson@example.com', hash('sha256', 'password5'), '2345678901', 'Male, 50 years old'),
-//   new Patient(6, 'Olivia Anderson', 'oliviaanderson@example.com', hash('sha256', 'password6'), '7654321098', 'Female, 27 years old'),
-//   new Patient(7, 'James Thompson', 'jamesthompson@example.com', hash('sha256', 'password7'), '4567890123', 'Male, 40 years old'),
-//   new Patient(8, 'Emma Martinez', 'emmamartinez@example.com', hash('sha256', 'password8'), '9012345678', 'Female, 33 years old'),
-//   new Patient(9, 'Alexander Adams', 'alexanderadams@example.com', hash('sha256', 'password9'), '6789012345', 'Male, 29 years old'),
-//   new Patient(10, 'Ava Clark', 'avaclark@example.com', hash('sha256', 'password10'), '3456789012', 'Female, 36 years old')];
-//
-// // Create an array to hold the general practitioner records
-// $generalPractitioners = [
-//     new GeneralPractitioner(NULL, 'Dr. Richard Harris', 'richardharris@example.com', hash('sha256', 'password11'), 'Experienced GP with 15 years in the field.'),
-//     new GeneralPractitioner(NULL, 'Dr. Elizabeth Turner', 'elizabethturner@example.com', hash('sha256', 'password12'), 'Specializes in family medicine.'),
-//     new GeneralPractitioner(NULL, 'Dr. Christopher Martinez', 'christophermartinez@example.com', hash('sha256', 'password13'), 'Expert in diagnosing complex medical conditions.'),
-//     new GeneralPractitioner(NULL, 'Dr. Samantha Baker', 'samanthabaker@example.com', hash('sha256', 'password14'), 'Dedicated to providing compassionate care.'),
-//     new GeneralPractitioner(NULL, 'Dr. Benjamin Walker', 'benjaminwalker@example.com', hash('sha256', 'password15'), 'Passionate about promoting overall wellness.'),
-//     new GeneralPractitioner(NULL, 'Dr. Victoria Adams', 'victoriaadams@example.com', hash('sha256', 'password16'), 'Practices evidence-based medicine.'),
-//     new GeneralPractitioner(NULL, 'Dr. Daniel Cooper', 'danielcooper@example.com', hash('sha256', 'password17'), 'Specializes in geriatric care.'),
-//     new GeneralPractitioner(NULL, 'Dr. Emily Wright', 'emilywright@example.com', hash('sha256', 'password18'), 'Focuses on preventive medicine.'),
-//     new GeneralPractitioner(NULL, 'Dr. Matthew Hill', 'matthewhill@example.com', hash('sha256', 'password19'), 'Expertise in managing chronic conditions.'),
-//     new GeneralPractitioner(NULL, 'Dr. Ava Adams', 'avaadams@example.com', hash('sha256', 'password20'), 'Provides comprehensive primary care services.')
-// ];
+$patients = [
+  new Patient(1, 'John Smith', 'johnsmith@example.com', hash('sha256', 'password1'), '1234567890', 'Male, 35 years old'),
+  new Patient(2, 'Emily Johnson', 'emilyjohnson@example.com', hash('sha256', 'password2'), '0987654321', 'Female, 28 years old'),
+  new Patient(3, 'Michael Brown', 'michaelbrown@example.com', hash('sha256', 'password3'), '9876543210', 'Male, 45 years old'),
+  new Patient(4, 'Sophia Davis', 'sophiadavis@example.com', hash('sha256', 'password4'), '0123456789', 'Female, 31 years old'),
+  new Patient(5, 'William Wilson', 'williamwilson@example.com', hash('sha256', 'password5'), '2345678901', 'Male, 50 years old'),
+  new Patient(6, 'Olivia Anderson', 'oliviaanderson@example.com', hash('sha256', 'password6'), '7654321098', 'Female, 27 years old'),
+  new Patient(7, 'James Thompson', 'jamesthompson@example.com', hash('sha256', 'password7'), '4567890123', 'Male, 40 years old'),
+  new Patient(8, 'Emma Martinez', 'emmamartinez@example.com', hash('sha256', 'password8'), '9012345678', 'Female, 33 years old'),
+  new Patient(9, 'Alexander Adams', 'alexanderadams@example.com', hash('sha256', 'password9'), '6789012345', 'Male, 29 years old'),
+  new Patient(10, 'Ava Clark', 'avaclark@example.com', hash('sha256', 'password10'), '3456789012', 'Female, 36 years old')];
+
+// Create an array to hold the general practitioner records
+$generalPractitioners = [
+    new GeneralPractitioner(NULL, 'Dr. Richard Harris', 'richardharris@example.com', hash('sha256', 'password11'), 'Experienced GP with 15 years in the field.'),
+    new GeneralPractitioner(NULL, 'Dr. Elizabeth Turner', 'elizabethturner@example.com', hash('sha256', 'password12'), 'Specializes in family medicine.'),
+    new GeneralPractitioner(NULL, 'Dr. Christopher Martinez', 'christophermartinez@example.com', hash('sha256', 'password13'), 'Expert in diagnosing complex medical conditions.'),
+    new GeneralPractitioner(NULL, 'Dr. Samantha Baker', 'samanthabaker@example.com', hash('sha256', 'password14'), 'Dedicated to providing compassionate care.'),
+    new GeneralPractitioner(NULL, 'Dr. Benjamin Walker', 'benjaminwalker@example.com', hash('sha256', 'password15'), 'Passionate about promoting overall wellness.'),
+    new GeneralPractitioner(NULL, 'Dr. Victoria Adams', 'victoriaadams@example.com', hash('sha256', 'password16'), 'Practices evidence-based medicine.'),
+    new GeneralPractitioner(NULL, 'Dr. Daniel Cooper', 'danielcooper@example.com', hash('sha256', 'password17'), 'Specializes in geriatric care.'),
+    new GeneralPractitioner(NULL, 'Dr. Emily Wright', 'emilywright@example.com', hash('sha256', 'password18'), 'Focuses on preventive medicine.'),
+    new GeneralPractitioner(NULL, 'Dr. Matthew Hill', 'matthewhill@example.com', hash('sha256', 'password19'), 'Expertise in managing chronic conditions.'),
+    new GeneralPractitioner(NULL, 'Dr. Ava Adams', 'avaadams@example.com', hash('sha256', 'password20'), 'Provides comprehensive primary care services.')
+];
 
 $appointments = [];
 $appointments[] = new Appointment(1, '09:00:00', '2023-06-07', 101, 'Regular check-up', 1, 1);

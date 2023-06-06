@@ -1,41 +1,46 @@
 <?php
 session_start();
 
-require '../Infrastructure/Data/DatabaseManager.php';
+require_once __DIR__ . '/../Infrastructure/Data/DatabaseManager.php';
+require_once __DIR__ . '/../Application/Services/ValidationService.php';
+require_once __DIR__ . '/../Application/Services/UserAuthenticationService.php';
+require_once __DIR__ . '/../Infrastructure/Repositories/PatientRepository.php';
+require_once __DIR__ . '/../Infrastructure/Repositories/PractitionerRepository.php';
 
 $errors = [];
+$databaseManager = new DatabaseManager();
+$validationService = new ValidationService();
+$userAuthenticationService = new UserAuthenticationService($databaseManager->getPdo());
+$patientRepository = new PatientRepository($databaseManager);
+$practitionerRepository = new PractitionerRepository($databaseManager);
 
 if ($_POST) {
-  $email = isset($_POST['email']) ? $_POST['email'] : '';
-  $password = isset($_POST['password']) ? $_POST['password'] : '';
-  $pdo = (new DatabaseManager())->getPdo();
+    $email = isset($_POST['email']) ? $_POST['email'] : '';
+    $password = isset($_POST['password']) ? $_POST['password'] : '';
 
-    // Email Validation (PHP)
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Invalid email format";
-    }
-
-    // Password Validation (PHP)
-    if (strlen($password) < 8 || strlen($password) > 40) {
-        $errors[] = "Password must be between 8 and 40 characters";
-    }
+    $errors[] = $validationService->validateEmail($email);
+    $errors[] = $validationService->validatePassword($password);
+    $errors = array_filter($errors);  // remove empty error messages
 
     if (empty($errors)) {
-        $stmt = $pdo->prepare('SELECT * FROM Patients WHERE email = ?');
-        $stmt->execute([$email]);
-        $user = $stmt->fetch();
+        $patient = $patientRepository->getPatientByEmail($email);
+        $practitioner = $practitionerRepository->getPractitionerByEmail($email);
 
-        if ($user && hash('sha256', $password) == $user['password']) {
-            $_SESSION['user'] = $user;
-            header("Location: user/index.php");
+        if ($patient && $userAuthenticationService->authenticate($email, $password, "Patients")) {
+            $_SESSION['user'] = $patient;
+            header("Location: index.php");
+            exit;
+        } elseif ($practitioner && $userAuthenticationService->authenticate($email, $password, "GeneralPractitioners")) {
+            $_SESSION['user'] = $practitioner;
+            header("Location: index.php");
             exit;
         } else {
-            $errors[] = "Invalid email or password";
+            $errors[] = "Invalid email or password. Try again";
         }
     }
 }
-
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,8 +75,6 @@ if ($_POST) {
 
             <input type="submit" value="Login">
         </form>
-
-        <a class="admin-login-link" href="adminLogin.php">Admin Login</a>
     </div>
 </body>
 </html>

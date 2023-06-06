@@ -1,6 +1,6 @@
 <?PHP
-require_once 'DatabaseConnection.php';
-require_once 'DatabaseSchema.php';
+require_once __DIR__ . '/DatabaseConnection.php';
+require_once __DIR__ . '/DatabaseSchema.php';
 class DatabaseManager {
   private $connection;
   private $schema;

@@ -5,7 +5,7 @@ require '../db.php';
 $pdo = (new DatabaseConnection())->getPdo();
 
 if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
+    header("Location: ../login.php");
 }
 
 $user = $_SESSION['user'];

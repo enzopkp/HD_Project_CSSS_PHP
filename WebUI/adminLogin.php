@@ -8,6 +8,7 @@ $errors = [];
 if ($_POST) {
   $email = isset($_POST['email']) ? $_POST['email'] : '';
   $password = isset($_POST['password']) ? $_POST['password'] : '';
+  $pdo = (new DatabaseConnection())->getPdo();
 
     // Email Validation (PHP)
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -41,7 +42,7 @@ if ($_POST) {
 <head>
     <title>Admin Login</title>
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins:400,500,700">
-    <link rel="stylesheet" type="text/css" href="/css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
     <script src="scripts/login.js"></script>
     </head>
     <body>

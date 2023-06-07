@@ -27,11 +27,23 @@ if ($_POST) {
         $practitioner = $practitionerRepository->getPractitionerByEmail($email);
 
         if ($patient && $userAuthenticationService->authenticate($email, $password, "Patients")) {
-            $_SESSION['user'] = $patient;
+            $_SESSION['user'] = [
+                'id' => $patient->getId(),
+                'email' => $patient->getEmail(),
+                'name' => $patient->getName(),
+                'contactInfo' => $patient->getContactInfo(),
+                'personalDetails' => $patient->getPersonalDetails()
+            ];
             header("Location: index.php");
             exit;
         } elseif ($practitioner && $userAuthenticationService->authenticate($email, $password, "GeneralPractitioners")) {
             $_SESSION['user'] = $practitioner;
+            $_SESSION['user'] = [
+                'id' => $practitioner->getId(),
+                'email' => $practitioner->getEmail(),
+                'name' => $practitioner->getName(),
+                'personalInfo' => $practitioner->getPersonalInfo()
+            ];
             header("Location: index.php");
             exit;
         } else {

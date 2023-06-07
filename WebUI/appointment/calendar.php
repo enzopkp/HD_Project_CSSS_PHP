@@ -1,6 +1,6 @@
 <?php
 session_start();
-$userType = require 'getUserType.php';
+$userType = require '../../Application/Services/GetUserTypeService.php';
 ?>
 
 
@@ -11,104 +11,7 @@ $userType = require 'getUserType.php';
   <link rel="stylesheet" type="text/css" href="../css/hamburger.css">
   <script src="../scripts/hamburger.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/style.css">
-  <!-- Add CSS styles for modern web design elements -->
-  <style>
-body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(45deg, #f3ec78, #af4261);
-  color: #333;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow-y: auto;
-}
-
-.container {
-  max-width: 800px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0px 10px 20px -10px rgba(0, 0, 0, 0.75);
-  overflow-y: auto;
-}
-
-.calendar {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.calendar th {
-  text-align: center;
-  padding: 10px;
-  background-color: #af4261;
-  color: #ffffff;
-}
-
-.calendar td {
-  height: 100px;
-  border: 1px solid #ccc;
-  vertical-align: top;
-  padding: 10px;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-.appointment {
-  margin-bottom: 5px;
-  padding: 5px;
-  background-color: #f3ec78;
-  border-radius: 3px;
-}
-
-/* CSS for the overlay */
-#overlay {
-  display: none;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 1000;
-}
-
-#overlay-content {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 20px;
-  width: 60%;
-  max-width: 800px;
-  border-radius: 5px;
-  box-shadow: 0px 10px 20px -10px rgba(0, 0, 0, 0.75);
-  z-index: 1001;
-}
-
-#overlay-content h2, #overlay-content p {
-  margin: 0;
-}
-
-#overlay-content button {
-  display: block;
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #af4261;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.overlay-appointment {
-  margin-bottom: 10px;
-  cursor: pointer;
-}
-  </style>
+  <link rel="stylesheet" type="text/css" href="../css/calendar.css">
 </head>
 <body>
 <?php 
@@ -184,8 +87,9 @@ if($userType=="Patient"){
 
   // Fetch appointments for the specified date from the server
   function fetchAppointments(date) {
-    fetch('get_appointments.php?start=' + formatDate(getStartOfWeek(date)) + '&end=' + formatDate(getEndOfWeek(date)) + '&userType=' + userType)
+    fetch('../../Application/Services/GetAppointmentsService.php?start=' + formatDate(getStartOfWeek(date)) + '&end=' + formatDate(getEndOfWeek(date)) + '&userType=' + userType)
     .then(function(response) {
+      console.log(response);
       if (!response.ok) {
         throw new Error('HTTP error ' + response.status);
       }
@@ -193,6 +97,7 @@ if($userType=="Patient"){
       return response.json();
     })
     .then(function(appointments) {
+      console.log(appointments);
       renderAppointments(appointments);
     })
     .catch(function(error) {

@@ -16,7 +16,7 @@ echo('
   <a href="../appointment/calendar.php">View Calendar</a>
   <a href="../appointment/edit_appointment.php">Update Appointment</a>
   <a href="../appointment/delete_appointment.php">Delete Appointment</a>
-  <a href="logout.php">Log Out</a>
+  <a href="../logout.php">Log Out</a>
 </div>
 ');
 ?>

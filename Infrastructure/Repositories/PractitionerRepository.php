@@ -15,6 +15,9 @@ class PractitionerRepository
 
   public function createPractitioner(PractitionerDTO $practitioner)
   {
+    if ($this->hasPractitionerByEmail($practitioner->getEmail())) {
+        return "There already exists a record with this information. Please try again.";
+    }
     $name = $practitioner->getName();
     $email = $practitioner->getEmail();
     $password = $practitioner->getPassword();
@@ -32,13 +35,9 @@ class PractitionerRepository
 
     // Check if the insert was successful
     if ($statement->rowCount() === 0) {
-      throw new Exception("Failed to create a new practitioner");
-    }
-
-    // Get the ID of the newly created practitioner
-    $id = $this->connection->lastInsertId();
-    $statement->closeCursor();
-    return $id;
+        return ("Failed to create a new practitioner");
+      }
+      return "Practitioner created successfully!";
   }
 
   public function getAllPractitioners()
@@ -152,6 +151,10 @@ class PractitionerRepository
 
   public function updatePractitioner(PractitionerDTO $practitioner)
 {
+    if (!$this->hasPractitionerByEmail($practitioner->getEmail())) {
+        return "failure";
+    }
+    
     // Prepare the UPDATE query
     $query = "UPDATE GeneralPractitioners SET name = ?, email = ?, personalInfo = ? WHERE id = ?";
     $statement = $this->connection->prepare($query);
@@ -163,12 +166,16 @@ class PractitionerRepository
 
     // Check if the update was successful
     if ($statement->rowCount() === 0) {
-      throw new Exception("Failed to update practitioner with ID: ".$practitioner->getId());
+        return ("failure");
     }
+    return "success";
 }
 
   public function deletePractitioner($id)
   {
+    if (!$this->hasPractitionerById($id)) {
+        return "No practitioner exists with the given ID: $id";
+      }
     // Prepare the DELETE query
     $query = "DELETE FROM GeneralPractitioners WHERE id = ?";
     $statement = $this->connection->prepare($query);
@@ -177,8 +184,9 @@ class PractitionerRepository
 
     // Check if the delete was successful
     if ($statement->rowCount() === 0) {
-        throw new Exception("Failed to delete patient with ID: $id");
+        return "Failed to delete patient with ID: $id";
     }
+    return "Practitioner deleted successfully!";
   }
 }
 ?>

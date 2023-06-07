@@ -41,9 +41,9 @@ $isPractitioner = $practitioner ? true : false; // Set isPractitioner to true if
             <?php 
                 if ($isPractitioner) {
                     echo '<a href="admin/create.php">Create User</a>
-                    <a href="admin/view_users.php">View Users</a>
-                    <a href="admin/update_user.php">Update User</a>
-                    <a href="admin/delete_user.php">Delete User</a>';
+                    <a href="admin/view.php">View Users</a>
+                    <a href="admin/update.php">Update User</a>
+                    <a href="admin/delete.php">Delete User</a>';
                 } else {
                     echo '<a href="user/view.php">View My Information</a>
                     <a href="user/edit.php">Edit My Information</a>';

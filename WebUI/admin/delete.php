@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../Infrastructure/Repositories/PractitionerRepositor
 $databaseManager = new DatabaseManager();
 $patientRepository = new PatientRepository($databaseManager);
 $practitionerRepository = new PractitionerRepository($databaseManager);
-
+$errors = [];
 $patients = $patientRepository->getAllPatients();
 $practitioners = $practitionerRepository->getAllPractitioners();
 
@@ -17,11 +17,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     if($type && $id) {
         if($type == 'patient') {
-            $patientRepository->deletePatient($id);
+            $errors[] = $patientRepository->deletePatient($id);
         } elseif ($type == 'practitioner') {
-            $practitionerRepository->deletePractitioner($id);
+            $errors[] = $practitionerRepository->deletePractitioner($id);
         }
-        header("Location: delete.php");
+        $errors = array_filter($errors); 
         exit();
     }
 }
@@ -42,6 +42,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <?php include 'menu.php'; ?>
 <div class="container">
     <h1>Delete User</h1>
+    <?php
+        // Display PHP validation errors
+        if (!empty($errors)) {
+            echo '<div class="error-message">';
+            foreach ($errors as $error) {
+                // escape the error message
+                echo '<p>' . htmlspecialchars($error, ENT_QUOTES) . '</p>';
+            }
+            echo '</div>';
+        }
+        ?>
 
     <h2>Patients</h2>
     <ul id="patients-list">

@@ -13,6 +13,13 @@ $practitionerRepository = new PractitionerRepository($databaseManager);
 
 $patients = $patientRepository->getAllPatients();
 $practitioners = $practitionerRepository->getAllPractitioners();
+$errors = [];
+if (isset($_GET['result']) && $_GET['result'] == 'success') {
+    $errors[] = "Successfully updated user details!";
+} elseif (isset($_GET['result']) && $_GET['result'] == 'failure') {
+    $errors[] = "Failed to update user details!";
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -29,6 +36,17 @@ $practitioners = $practitionerRepository->getAllPractitioners();
 <?php include 'menu.php'; ?>
     <div class="container">
         <h1>Admin User Lookup</h1>
+        <?php
+        // Display PHP validation errors
+        if (!empty($errors)) {
+            echo '<div class="error-message">';
+            foreach ($errors as $error) {
+                // escape the error message
+                echo '<p>' . htmlspecialchars($error, ENT_QUOTES) . '</p>';
+            }
+            echo '</div>';
+        }
+        ?>
         <div id="userDetails"></div>
         <h2>Patients</h2>
         <ul>
@@ -46,7 +64,7 @@ $practitioners = $practitionerRepository->getAllPractitioners();
     </div>
     <script>
         function fetchUserDetails(type, id) {
-        fetch('get_user_details.php?type=' + type + '&id=' + id)
+        fetch('../../Application/Services/GetUserDetailsService.php?type=' + type + '&id=' + id)
             .then(function(response) {
                 console.log(response);
                 if (!response.ok) {
@@ -68,7 +86,7 @@ $practitioners = $practitionerRepository->getAllPractitioners();
             var userDetailsDiv = document.getElementById('userDetails');
             userDetailsDiv.innerHTML = '';
 
-            var formHTML = '<form id="updateForm" method="post" action="update_user_details.php">';
+            var formHTML = '<form id="updateForm" method="post" action="../../Application/Services/UpdateUserDetailsService.php">';
 
             for (var key in userDetails) {
                 formHTML += '<label for="' + key + '">' + key + ':</label>';

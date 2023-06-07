@@ -15,6 +15,9 @@ class PatientRepository
   
   public function createPatient(PatientDTO $patient)
   {
+    if ($this->hasPatientByEmail($patient->getEmail())) {
+      return "There already exists a record with this information. Please try again.";
+    }
     $name = $patient->getName();
     $email = $patient->getEmail();
     $password = $patient->getPassword();
@@ -34,13 +37,10 @@ class PatientRepository
 
     // Check if the insert was successful
     if ($statement->rowCount() === 0) {
-      throw new Exception("Failed to create a new patient");
+      return ("Failed to create a new patient");
     }
     
-    // Get the ID of the newly created patient
-    $id = $this->connection->lastInsertId();
-    $statement->closeCursor();
-    return $id;
+    return "Patient created successfully!";
   }
 
   public function getAllPatients()
@@ -157,6 +157,9 @@ class PatientRepository
 
   public function updatePatient(PatientDTO $patient)
   {
+    if (!$this->hasPatientByEmail($patient->getEmail())) {
+      return "failure";
+    }
     // Prepare the UPDATE query
     $query = "UPDATE Patients SET name=?, email=?, contactInfo=?, personalDetails=? WHERE id=?";
     $statement = $this->connection->prepare($query);
@@ -175,12 +178,16 @@ class PatientRepository
 
     // Check if the update was successful
     if ($statement->rowCount() === 0) {
-      throw new Exception("Failed to update patient with ID: ".$patient->getId() . $patient->getName() . $patient->getEmail() . $patient->getContactInfo() . $patient->getPersonalDetails());
+      return "failure";
     } 
+    return "success";
   }
 
   public function deletePatient($id)
   {
+    if (!$this->hasPatientById($id)) {
+      return "There are no records matching this information. Please try again.";
+    }
     // Prepare the DELETE query
     $query = "DELETE FROM Patients WHERE id=?";
     $statement = $this->connection->prepare($query);
@@ -189,8 +196,9 @@ class PatientRepository
 
     // Check if the delete was successful
     if ($statement->rowCount() === 0) {
-      throw new Exception("Failed to delete patient with ID: $id");
+      return ("Failed to delete patient with ID: $id");
     }
+    return "Patient deleted successfully!";
   }
 }
 ?>

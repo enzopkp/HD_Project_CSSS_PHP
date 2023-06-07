@@ -31,7 +31,6 @@ $appointments = $appointmentRepository->getAppointmentByPatient($patientId);
     <script src="../scripts/hamburger.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/hamburger.css">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
-    <!-- Add your styles here -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Pre-fill the dropdown with user's appointments
@@ -48,7 +47,7 @@ $appointments = $appointmentRepository->getAppointmentByPatient($patientId);
 </head>
 <body>
 <?php 
-$userType = require 'getUserType.php';
+$userType = require '../../Application/Services/GetUserTypeService.php';
 if($userType=="Patient"){
   include '../user/menu.php';
 } else{

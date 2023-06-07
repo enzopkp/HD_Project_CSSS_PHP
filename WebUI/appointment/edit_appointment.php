@@ -64,7 +64,7 @@ $appointments = $appointmentRepository->getAppointmentByPatient($patientId);
 </head>
 <body>
 <?php 
-$userType = require 'getUserType.php';
+$userType = require '../../Application/Services/GetUserTypeService.php';
 if($userType=="Patient"){
   include '../user/menu.php';
 } else{
